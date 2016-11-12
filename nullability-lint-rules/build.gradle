@@ -1,0 +1,48 @@
+/*
+ * Copyright 2016 Roman Zhukov
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+apply plugin: 'java'
+
+dependencies {
+    compile 'com.android.tools.lint:lint:24.3.1'
+    compile 'com.android.tools.lint:lint-api:24.3.1'
+    compile 'com.android.tools.lint:lint-checks:24.3.1'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'com.android.tools.lint:lint-tests:24.3.1'
+    testCompile 'com.android.tools:testutils:24.3.1'
+}
+
+jar {
+    manifest {
+        attributes 'Lint-Registry': 'ru.rzhukov.lint.nullability.NullabilityRegistry'
+    }
+}
+
+configurations {
+    lintChecks
+}
+
+dependencies {
+    lintChecks files(jar)
+}
+
+defaultTasks 'assemble'
+
+task install(type: Copy) {
+    from configurations.lintChecks
+    into System.getProperty('user.home') + '/.android/lint/'
+}
