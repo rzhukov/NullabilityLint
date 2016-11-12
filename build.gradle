@@ -28,12 +28,19 @@ buildscript {
     }
 }
 
-allprojects {
+allprojects { project ->
     repositories {
         jcenter()
     }
+
+    project.version = VERSION_NAME
+    project.group = GROUP
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    localPublish = true
 }

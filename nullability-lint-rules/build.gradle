@@ -42,7 +42,7 @@ dependencies {
 
 defaultTasks 'assemble'
 
-task install(type: Copy) {
+task installLint(type: Copy) {
     from configurations.lintChecks
     into System.getProperty('user.home') + '/.android/lint/'
 }
